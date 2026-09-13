@@ -1,0 +1,83 @@
+name: Curator
+options:
+  bundleIdPrefix: com.danbarclay
+  deploymentTarget:
+    iOS: "27.0"
+  developmentLanguage: en
+packages:
+  CuratorCore:
+    path: .
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    IPHONEOS_DEPLOYMENT_TARGET: "27.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: NO
+    CODE_SIGN_STYLE: Automatic
+targets:
+  Curator:
+    type: application
+    platform: iOS
+    sources: [Curator]
+    info:
+      path: Curator/Info.plist
+      properties:
+        CFBundleDisplayName: Curator
+        NSPhotoLibraryUsageDescription: Curator finds similar photos on your iPhone and only removes photos you review and approve.
+        PHPhotoLibraryPreventAutomaticLimitedAccessAlert: true
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+    dependencies:
+      - package: CuratorCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.danbarclay.curator
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+        SWIFT_EMIT_LOC_STRINGS: YES
+  CuratorTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [CuratorTests]
+    dependencies:
+      - target: Curator
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+  CuratorUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [CuratorUITests]
+    dependencies:
+      - target: Curator
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+  CuratorModelTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [CuratorModelTests]
+    dependencies:
+      - target: Curator
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Curator:
+    build:
+      targets:
+        Curator: all
+    test:
+      targets: [CuratorTests, CuratorUITests]
+  CuratorModelProbe:
+    build:
+      targets:
+        Curator: all
+    test:
+      targets: [CuratorModelTests]
